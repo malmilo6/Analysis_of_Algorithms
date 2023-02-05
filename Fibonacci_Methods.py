@@ -70,41 +70,6 @@ def fib_matrix(n):
     i = np.array([[0, 1], [1, 1]])
     return np.matmul(matrix_power(i, n), np.array([1, 0]))[1]
 
-
-def matrix_fib(n):
-    F = [[1, 1],
-         [1, 0]]
-    if n == 0:
-        return 0
-    power(F, n - 1)
-
-    return F[0][0]
-
-
-def multiply(F, M):
-    x = (F[0][0] * M[0][0] +
-         F[0][1] * M[1][0])
-    y = (F[0][0] * M[0][1] +
-         F[0][1] * M[1][1])
-    z = (F[1][0] * M[0][0] +
-         F[1][1] * M[1][0])
-    w = (F[1][0] * M[0][1] +
-         F[1][1] * M[1][1])
-
-    F[0][0] = x
-    F[0][1] = y
-    F[1][0] = z
-    F[1][1] = w
-
-
-def power(F, n):
-    M = [[1, 1],
-         [1, 0]]
-
-    for i in range(2, n + 1):
-        multiply(F, M)
-
-
 # 4 Binet Formula
 def f_fib(n):
     rnd = Context(prec=50, rounding="ROUND_HALF_EVEN")
@@ -128,10 +93,42 @@ def i_fib(n):
     return fib[n]
 
 
+def multiply(matrix_a: list[list[int]], matrix_b: list[list[int]]) -> list[list[int]]:
+    matrix_c = []
+    n = len(matrix_a)
+    for i in range(n):
+        list_1 = []
+        for j in range(n):
+            val = 0
+            for k in range(n):
+                val = val + matrix_a[i][k] * matrix_b[k][j]
+            list_1.append(val)
+        matrix_c.append(list_1)
+    return matrix_c
+
+
+def identity(n: int) -> list[list[int]]:
+    return [[int(row == column) for column in range(n)] for row in range(n)]
+
+
+def nth_fibonacci_matrix(n: int) -> int:
+    if n <= 1:
+        return n
+    res_matrix = identity(2)
+    fibonacci_matrix = [[1, 1], [1, 0]]
+    n = n - 1
+    while n > 0:
+        if n % 2 == 1:
+            res_matrix = multiply(res_matrix, fibonacci_matrix)
+        fibonacci_matrix = multiply(fibonacci_matrix, fibonacci_matrix)
+        n = int(n / 2)
+    return res_matrix[0][0]
+
+
 # Use for loop for getting the numbers into functions, time calculation with timeit lib
 for number in x_slow:
-    exec_time = timeit.timeit(lambda: rec_fib(number), number=1)
-    y_0.append(round(exec_time, 5))
+    # exec_time = timeit.timeit(lambda: rec_fib(number), number=1)
+    # y_0.append(round(exec_time, 5))
 
     exec_time = timeit.timeit(lambda: dynamic_fib(number), number=1)
     y_1.append(round(exec_time, 5))
@@ -139,7 +136,7 @@ for number in x_slow:
     exec_time = timeit.timeit(lambda: doubling_fib(number), number=1)
     y_2.append(round(exec_time, 5))
 
-    exec_time = timeit.timeit(lambda: matrix_fib(number), number=1)
+    exec_time = timeit.timeit(lambda: nth_fibonacci_matrix(number), number=1)
     y_3.append(round(exec_time, 5))
 
     exec_time = timeit.timeit(lambda: f_fib(number), number=1)
@@ -149,19 +146,23 @@ for number in x_slow:
     y_5.append(round(exec_time, 5))
 
 # Create prettytable
-res_table.field_names = x_s
-create_table(y_0, 0, res_table)
-create_table(y_1, 1, res_table)
-create_table(y_2, 2, res_table)
-create_table(y_3, 3, res_table)
-create_table(y_4, 4, res_table)
-create_table(y_5, 5, res_table)
-print(res_table)
+# res_table.field_names = x_s
+# # create_table(y_0, 0, res_table)
+# create_table(y_1, 1, res_table)
+# create_table(y_2, 2, res_table)
+# create_table(y_3, 3, res_table)
+# create_table(y_4, 4, res_table)
+# create_table(y_5, 5, res_table)
+# print(res_table)
 
 # Draw the graphs
-plt.title("Matrix exponential Fibonacci function")
-plt.plot(x_slow, y_3)
-plt.scatter(x_slow, y_3)
+plt.title("Difference among the methods through the graph")
+plt.plot(x_slow, y_1, '-r', marker='o', label='Dynamic Programming Method')
+plt.plot(x_slow, y_2, '-b', marker='o', label='Doubling Method')
+plt.plot(x_slow, y_3, '-y', marker='o', label='Matrix Exponential Method')
+plt.plot(x_slow, y_4, '-m', marker='o', label='Binet Formula Method')
+plt.plot(x_slow, y_5, '-g', marker='o', label='Iterative Method')
+plt.legend()
 plt.grid()
 plt.xlabel('N-th Fibonacci Number')
 plt.ylabel('Time (s)')
