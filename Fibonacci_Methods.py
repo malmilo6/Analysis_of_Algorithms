@@ -65,32 +65,10 @@ def doubling_fib(n):
             return d, c + d
 
 
-# 3 Matrix exponential
+# 3 Matrix exponentiation
 def fib_matrix(n):
     i = np.array([[0, 1], [1, 1]])
     return np.matmul(matrix_power(i, n), np.array([1, 0]))[1]
-
-# 4 Binet Formula
-def f_fib(n):
-    rnd = Context(prec=50, rounding="ROUND_HALF_EVEN")
-    phi = d.Decimal((1 + d.Decimal(5 ** (1 / 2))))
-    phi1 = d.Decimal((1 - d.Decimal(5 ** (1 / 2))))
-
-    return int((rnd.power(phi, d.Decimal(n)) - rnd.power(phi1, d.Decimal(n))) / (2 ** n * d.Decimal(5 ** (1 / 2))))
-
-
-# 5 Iterative
-def i_fib(n):
-    fib = [0, 1]
-    if n == 0:
-        return fib[0]
-    if n == 1:
-        return fib[1]
-    i = 2
-    while i <= n:
-        fib.append(fib[i - 1] + fib[i - 2])
-        i += 1
-    return fib[n]
 
 
 def multiply(matrix_a: list[list[int]], matrix_b: list[list[int]]) -> list[list[int]]:
@@ -123,6 +101,29 @@ def nth_fibonacci_matrix(n: int) -> int:
         fibonacci_matrix = multiply(fibonacci_matrix, fibonacci_matrix)
         n = int(n / 2)
     return res_matrix[0][0]
+
+
+# 4 Binet Formula
+def f_fib(n):
+    rnd = Context(prec=50, rounding="ROUND_HALF_EVEN")
+    phi = d.Decimal((1 + d.Decimal(5 ** (1 / 2))))
+    phi1 = d.Decimal((1 - d.Decimal(5 ** (1 / 2))))
+
+    return int((rnd.power(phi, d.Decimal(n)) - rnd.power(phi1, d.Decimal(n))) / (2 ** n * d.Decimal(5 ** (1 / 2))))
+
+
+# 5 Iterative
+def i_fib(n):
+    fib = [0, 1]
+    if n == 0:
+        return fib[0]
+    if n == 1:
+        return fib[1]
+    i = 2
+    while i <= n:
+        fib.append(fib[i - 1] + fib[i - 2])
+        i += 1
+    return fib[n]
 
 
 # Use for loop for getting the numbers into functions, time calculation with timeit lib
