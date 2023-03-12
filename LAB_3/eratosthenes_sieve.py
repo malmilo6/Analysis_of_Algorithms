@@ -1,10 +1,10 @@
 from math import sqrt
-import matplotlib.pyplot as plt
 import timeit
 import numpy as np
+import matplotlib.pyplot as plt
 
 
-def alg_1(n):
+def SieveofEratosthenes(n):
     arr = [True] * (n + 1)
     arr[1] = False
     i = 2
@@ -18,7 +18,7 @@ def alg_1(n):
     return [i for i in range(1, n + 1) if arr[i]]
 
 
-def alg_2(n):
+def ModifiedSieveofEratosthenes(n):
     arr = [True] * (n + 1)
     arr[1] = False
     i = 2
@@ -31,7 +31,7 @@ def alg_2(n):
     return [num for num in range(1, n + 1) if arr[num]]
 
 
-def alg_3(n):
+def naive_alg(n):
     arr = [True] * (n + 1)
     arr[1] = False
     i = 2
@@ -46,7 +46,7 @@ def alg_3(n):
     return [num for num in range(1, n + 1) if arr[num]]
 
 
-def alg_4(n):
+def trial_div_alg(n):
     arr = [True] * (n + 1)
     arr[1] = False
     i = 2
@@ -61,7 +61,7 @@ def alg_4(n):
     return [num for num in range(1, n + 1) if arr[num]]
 
 
-def alg_5(n):
+def opt_trial_div_alg(n):
     arr = [True] * (n + 1)
     arr[1] = False
     i = 2
@@ -80,24 +80,24 @@ def alg_5(n):
 
 prime_algorithms = [
     {
-        "name": "alg_1",
-        "primes": lambda n: alg_1(n)
+        "name": "Sieve of Eratosthenes",
+        "primes": lambda n: SieveofEratosthenes(n)
     },
     {
-        "name": "alg_2",
-        "primes": lambda n: alg_2(n)
+        "name": "Modified Sieve of Eratosthenes",
+        "primes": lambda n: ModifiedSieveofEratosthenes(n)
     },
     {
-        "name": "alg_3",
-        "primes": lambda n: alg_3(n)
+        "name": "Naive algorithm",
+        "primes": lambda n: naive_alg(n)
     },
     {
-        "name": "alg_4",
-        "primes": lambda n: alg_4(n)
+        "name": "Trial division algorithm",
+        "primes": lambda n: trial_div_alg(n)
     },
     {
-        "name": "alg_5",
-        "primes": lambda n: alg_5(n)
+        "name": "Optimized trial division algorithm",
+        "primes": lambda n: opt_trial_div_alg(n)
     }
 ]
 
