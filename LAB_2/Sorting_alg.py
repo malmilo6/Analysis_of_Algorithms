@@ -1,7 +1,7 @@
-import time
 import numpy as np
 import matplotlib.pyplot as plt
 import timeit
+import random as rnd
 
 
 # Selection Sort
@@ -144,10 +144,10 @@ def quickSort(arr, low, high):
 
 
 sorts = [
-    {
-        "name": "Selection Sort",
-        "sort": lambda arr: selectionSort(arr)
-    },
+    # {
+    #     "name": "Selection Sort",
+    #     "sort": lambda arr: selectionSort(arr)
+    # },
     {
         "name": "Merge Sort",
         "sort": lambda arr: mergeSort(arr, 0, len(arr) - 1)
@@ -172,7 +172,7 @@ for sort in sorts:
     start_all = timeit.default_timer()
     for i in range(1, 50):
         start = timeit.default_timer()
-        a = np.random.randint(10000, size=i * 1000)
+        a = np.random.randint(10000, size=i * 1000) 
         sort["sort"](a)
         end = timeit.default_timer()
         times.append(end - start)
