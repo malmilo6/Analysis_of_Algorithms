@@ -2,6 +2,8 @@ import random
 import networkx as nx
 import matplotlib.pyplot as plt
 import timeit
+import numpy as np
+import prettytable as pt
 
 
 # Define a function to generate an unbalanced graph with a specified number of nodes and edges
@@ -54,23 +56,36 @@ def dfs(G, start_node, visited=None):
             dfs(G, neighbor, visited)  # Recursively call dfs on the neighbor
 
 
-# Generate an unbalanced graph with 10 nodes and 15 edges
-G_unbalanced = generate_unbalanced_graph(10, 15)
-G_balanced = generate_balanced_graph(500)
-# Traverse the unbalanced graph using BFS and DFS
-start_node = 0
-print("BFS:")
-bfs(G_unbalanced, start_node)
-bfs(G_balanced, start_node)
-print("DFS:")
-dfs(G_unbalanced, start_node)
-dfs(G_balanced, start_node)
+algorithms = [
+    {
+        "name": "BFS",
+        "algo": lambda G: bfs(G, 0)
+    },
+    {
+        "name": "DFS",
+        "algo": lambda G: dfs(G, 0)
+    }
+]
+plt.title('Unbalanced Graph')
+plt.xlabel('Number of nodes')
+plt.ylabel('T(s)')
 
-# Draw the graph
-# pos_unbalanced = nx.spring_layout(G_unbalanced)
-# nx.draw_networkx(G_unbalanced, pos=pos_unbalanced)
-# plt.show()
-#
-# pos_balanced = nx.spring_layout(G_balanced)
-# nx.draw_networkx(G_balanced, pos=pos_balanced)
-# plt.show()
+for algo in algorithms:
+    elements = list()
+    elements1 = list()
+    start_all = timeit.default_timer()
+    for i in range(1, 30):
+        start = timeit.default_timer()
+        a = i * 10
+        G = generate_unbalanced_graph(a, a / 2)
+        # G = generate_balanced_graph(a)
+        algo["algo"](G)
+        end = timeit.default_timer()
+        elements.append(a)
+        elements1.append(end - start)
+
+    plt.plot(elements, elements1, label=algo["name"])
+
+plt.grid()
+plt.legend()
+plt.show()
