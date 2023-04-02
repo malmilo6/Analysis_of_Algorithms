@@ -1,1 +1,1 @@
-# Analysis_of_Algorithms CS.2.2 666
+# Analysis_of_Algorithms CS.2.2
