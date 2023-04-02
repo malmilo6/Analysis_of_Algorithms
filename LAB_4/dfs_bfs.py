@@ -64,7 +64,7 @@ bfs(G_unbalanced, start_node)
 bfs(G_balanced, start_node)
 print("DFS:")
 dfs(G_unbalanced, start_node)
-bfs(G_balanced, start_node)
+dfs(G_balanced, start_node)
 
 # Draw the graph
 # pos_unbalanced = nx.spring_layout(G_unbalanced)
