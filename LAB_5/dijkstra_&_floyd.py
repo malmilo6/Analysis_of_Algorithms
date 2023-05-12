@@ -4,8 +4,6 @@ import heapq
 import timeit
 import matplotlib.pyplot as plt
 
-# Your existing generate_random_weighted_graph function here
-
 
 def generate_random_weighted_graph(n, p, weight_range):
     # Create a random graph with n nodes and probability p for creating edges
